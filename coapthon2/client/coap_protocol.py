@@ -328,7 +328,6 @@ class CoAP(DatagramProtocol):
         req.code = defines.inv_codes['GET']
         req.uri_path = path
         req.observe = 0
-        req.token = "ciao"
         req.type = defines.inv_types["CON"]
         self.send_callback(req, self.observe_results, client_callback)
 
@@ -542,4 +541,6 @@ class HelperClient(object):
         try:
             reactor.run()
         except twisted.internet.error.ReactorAlreadyRunning:
-           log.msg("Reactor already started")
+            log.msg("Reactor already started")
+
+
