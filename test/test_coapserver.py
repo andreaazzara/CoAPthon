@@ -1,4 +1,12 @@
 import random
+
+import sys
+PY_COAP_PATH = '../'
+
+sys.path.insert(0, PY_COAP_PATH)
+
+
+
 from twisted.test import proto_helpers
 from twisted.trial import unittest
 from coapserver import CoAPServer
@@ -16,7 +24,7 @@ __version__ = "2.0"
 class Tests(unittest.TestCase):
 
     def setUp(self):
-        self.proto = CoAPServer()
+        self.proto = CoAPServer("[::1]", 5683)
         self.tr = proto_helpers.FakeDatagramTransport()
         self.proto.makeConnection(self.tr)
         self.current_mid = random.randint(1, 1000)
@@ -195,4 +203,3 @@ class Tests(unittest.TestCase):
         expected.payload = "Separate"
 
         self._test_separate(req, expected)
-

@@ -527,6 +527,14 @@ class HelperClient(object):
     def __init__(self, server=("127.0.0.1", 5683), forward=False):
         self.protocol = CoAP(server, forward)
 
+
+    _instance = None
+    def __new__(cls, *args, **kwargs):
+        if not cls._instance:
+            cls._instance = super(HelperClient, cls).__new__(
+                                cls, *args, **kwargs)
+        return cls._instance
+
     @property
     def starting_mid(self):
         return self.protocol._currentMID
@@ -537,10 +545,13 @@ class HelperClient(object):
 
     def start(self, operations):
         self.protocol.set_operations(operations)
-        reactor.listenUDP(0, self.protocol)
+        #reactor.listenUDP(0, self.protocol)
+        reactor.listenUDP(0, self.protocol, "bbbb::1")
         try:
             reactor.run()
         except twisted.internet.error.ReactorAlreadyRunning:
             log.msg("Reactor already started")
 
+    def add_operations(self, operations):
+        self.protocol.set_operations(operations)        
 

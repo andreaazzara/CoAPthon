@@ -9,15 +9,15 @@ class CoAPServer(CoAP):
     def __init__(self, host, port, multicast=False):
         CoAP.__init__(self, multicast)
         self.add_resource('storage/', Storage())
-        self.add_resource('separate/', Separate())
+        #self.add_resource('separate/', Separate())
         print "CoAP Server start on " + host + ":" + str(port)
         print(self.root.dump())
 
 
 def main():
-    server = CoAPServer("127.0.0.1", 5683)
-    #reactor.listenMulticast(5683, server, listenMultiple=True)
-    reactor.listenUDP(5683, server, "127.0.0.1")
+    server = CoAPServer("[::1]", 5683)
+    #reactor.listenUDP(5683, server, listenMultiple=True)
+    reactor.listenUDP(5683, server, "::1")
     reactor.run()
 
 
